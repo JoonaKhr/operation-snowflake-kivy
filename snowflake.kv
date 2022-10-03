@@ -1,0 +1,53 @@
+#:kivy 2.1.0
+
+<Widget>:
+    font_name: "resources\SinsGold.ttf"
+    font_size: "36sp"
+
+<OperationSnowflake>: #root
+    startToggle: startToggle
+    BoxLayout:
+        orientation:'vertical'    
+        ProgressBar:
+            id: timer
+            max:6
+            value:0
+            size_hint: 1, 0.05
+        Image:
+            source: "resources\imgs\A1.png"
+        GridLayout:
+            rows: 2
+            cols: 2
+            size_hint: 1, 0.2
+            Label:
+                text: root.scoreText
+            Button:
+                on_press: 
+                    app.root.current = 'leaderboards'
+                    app.root.transition.direction = 'left'
+                text: "Leaderboards"
+            ToggleButton:
+                id: startToggle
+                on_press: root.startGameToggle(self)
+                text: "Start"
+            Button:
+                on_press: 
+                    app.root.transition.direction = 'left'
+                    app.root.current = 'settings'
+                text: "Settings"
+
+<SettingsScreen>:
+    BoxLayout:
+        Button:
+            text: "Back to Menu"
+            on_press: 
+                app.root.transition.direction = 'right'
+                app.root.current = 'menu'
+
+<LeaderboardsScreen>:
+    BoxLayout:
+        Button:
+            text: "Back To Menu"
+            on_press: 
+                app.root.transition.direction = 'right'
+                app.root.current = 'menu'
