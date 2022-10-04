@@ -9,3 +9,6 @@ Pythonilla rakennettava logiikka ja kivyllä rakennettava käyttöliittymä, mon
 Testaan sitä manuaalisesti toimintoja tehdessä, en tiedä voiko sitä miten hyvin automatisoida. MongoDB yhteyttä kai voinee testata automaattisesti
 Ensimmäiset pari viikkoa menee kivyn UI rakentamisen opettelemiseen, jonka jälkeen alan työstämään logiikkaa tämän ympärille.
 Minä olen kaikki roolit
+
+
+28.9.-5.10. välillä sain screen managerin toimimaan ja näin minulla on alusta asetukset ja pistetilastot näkymille minkä tekemistä en vielä aloittanut
