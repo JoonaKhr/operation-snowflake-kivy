@@ -13,6 +13,7 @@ Testaan sitä manuaalisesti toimintoja tehdessä, en tiedä voiko sitä miten hy
 
 Ensimmäiset pari viikkoa menee kivyn UI rakentamisen opettelemiseen, jonka jälkeen alan työstämään logiikkaa tämän ympärille.
 
+Työskentelen suurimmaksi osaksi kahden kaverini kanssa puhelussa discordin kautta jakaen ruutuani, jotta he voivat katsoa mitä teen.
 
 ## Päiväkirja
 20.9.-27.9. Pelin ulkoasun tekemisen aloittaminen, painikkeita ja pisteteksti. Start Game painike, joka aloittaa ajastimen ja ajastimen loputtua ajastin sulkee itsensä.
