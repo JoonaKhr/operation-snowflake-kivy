@@ -1,4 +1,4 @@
-# Operation Snowflake with Kivy
+# Operation Snowflake with Kivy ![A1](https://github.com/JoonaKhr/operation-snowflake-kivy/blob/master/resources/imgs/A1.png)
 Projektin tavoite olisi saada luotua peli, jossa painellaan ruudulle ilmestyviä lumihiutaleita, joita on kahdessa eri koossa merkiten paljonko niistä saa pisteistä.
 
 Pelin olisi tarkoitus toimia niin tietokoneella kuin mobiilillakin kivyn ansiosta ja tulokset pitäisi lähteä nettiin mongoDB:hen ja tulla myös sieltä pelissä olevaan
