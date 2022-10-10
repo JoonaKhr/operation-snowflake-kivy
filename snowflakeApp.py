@@ -1,3 +1,4 @@
+from random import uniform
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -30,6 +31,9 @@ class OperationSnowflake(Screen):
         self.score += 1
         self.scoreText = f"Score: {self.score}"
     
+    def spawnInRandPos(self):
+        self.ids.playArea.add_widget(Image(source="resources/imgs/a3.png", pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}, color=(1,1,1,1)), 0, self.ids.playArea.canvas.after)
+
     def openSettings(self):
         pass
     
@@ -48,10 +52,13 @@ class OperationSnowflake(Screen):
             widget.text = "Stop"
             self.ids.timer.value = 100
             self.score = 0
+            self.ids.ldrbrds_btn.disabled = True
+            self.ids.settings_btn.disabled = True
             self.startClock()
 
     def timerTick(self, dt):
         self.ids.timer.value -= 1
+        self.spawnInRandPos()
         if self.ids.timer.value == 0:
             self.stopClock()
             self.startToggle.state = "normal"

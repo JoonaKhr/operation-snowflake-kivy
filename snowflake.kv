@@ -3,25 +3,38 @@
 <Widget>:
     font_name: "resources\SinsGold.ttf"
     font_size: "36sp"
+    color: 0, 0, 0, 1
+    disabled_color: 0, 0, 0, 1
+    background_normal: "resources/imgs/button_normal.png"
+    background_down: "resources/imgs/button_pressed.png"
+    background_disabled_normal: "resources/imgs/button_pressed.png"
 
 <OperationSnowflake>: #root
     startToggle: startToggle
+    playArea: playArea
+    ldrbrds_btn: ldrbrds_btn
+    settings_btn: settings_btn
     BoxLayout:
         orientation:'vertical'    
+        RelativeLayout:
+            id: playArea
         ProgressBar:
             id: timer
             max:6
             value:0
             size_hint: 1, 0.05
-        Image:
-            source: "resources\imgs\A1.png"
         GridLayout:
             rows: 2
             cols: 2
             size_hint: 1, 0.2
-            Label:
+            padding: [2, 2, 2, 2]
+            spacing: [5, 5]
+            Button:
+                background_disabled_normal: "resources/imgs/label.png"
+                disabled: True
                 text: root.scoreText
             Button:
+                id: ldrbrds_btn
                 on_press: 
                     app.root.current = 'leaderboards'
                     app.root.transition.direction = 'left'
@@ -30,7 +43,9 @@
                 id: startToggle
                 on_press: root.startGameToggle(self)
                 text: "Start"
+                
             Button:
+                id: settings_btn
                 on_press: 
                     app.root.transition.direction = 'left'
                     app.root.current = 'settings'
