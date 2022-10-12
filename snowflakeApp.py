@@ -29,18 +29,27 @@ class OperationSnowflake(Screen):
     objectsOnScreen = []
 
     def on_touch_down(self, touch):
+        print(touch.pos)
+        touchcoords = self.ids.playArea.to_local(touch.x, touch.y)
+        print(touchcoords)
+        for item in self.objectsOnScreen:
+            if item.collide_point(touchcoords[0], touchcoords[1]):
+                self.addPoint(item)
         return super().on_touch_down(touch)
 
-    #Supposedly adds points when it gets implemented on to the game also updates the score text on screen
-    def addPoint(self):
+    #Actually works, it gives points and removes clicked object from screen
+    def addPoint(self, obj):
+        self.ids.playArea.remove_widget(obj)
         self.score += 1
         self.scoreText = f"Score: {self.score}"
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawnInRandPos(self):
         playObject = Image(source="resources/imgs/a3.png", color=(1,1,1,1))
-        playObject.size = ("32dp", "32dp")
+        playObject.size = playObject.texture_size
+        playObject.size_hint = (None, None)
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}
+
         self.ids.playArea.add_widget(playObject, 0, self.ids.playArea.canvas.after)
         if len(self.objectsOnScreen) == 5:
             self.ids.playArea.remove_widget(self.objectsOnScreen[0])
@@ -61,6 +70,7 @@ class OperationSnowflake(Screen):
         self.ids.settings_btn.disabled = False
         self.ids.timer.value = 0
         self.ids.playArea.clear_widgets()
+        self.objectsOnScreen.clear()
         self.timerEvent.cancel()
 
     # Start the game and the clock also disable the two extra buttons so no accidents happen
