@@ -3,7 +3,6 @@
 <Widget>:
     font_name: "resources\SinsGold.ttf"
     font_size: "36sp"
-    color: 0, 0, 0, 1
     disabled_color: 0, 0, 0, 1
     background_normal: "resources/imgs/button_normal.png"
     background_down: "resources/imgs/button_pressed.png"
@@ -14,6 +13,7 @@
     playArea: playArea
     ldrbrds_btn: ldrbrds_btn
     settings_btn: settings_btn
+    
     BoxLayout:
         orientation:'vertical'    
         RelativeLayout:
@@ -33,37 +33,80 @@
             Button:
                 background_disabled_normal: "resources/imgs/label.png"
                 disabled: True
+                color: 0,0,0,1
                 text: root.scoreText
             Button:
                 id: ldrbrds_btn
+                color: 0,0,0,1
                 on_press: 
                     app.root.current = 'leaderboards'
                     app.root.transition.direction = 'left'
+                    app.button_click_sound()
                 text: "Leaderboards"
             ToggleButton:
+                color: 0,0,0,1
                 id: startToggle
-                on_press: root.startGameToggle(self)
+                on_press: 
+                    app.button_click_sound()
+                    root.startGameToggle(self)
                 text: "Start"
                 
             Button:
+                color: 0,0,0,1
                 id: settings_btn
                 on_press: 
                     app.root.transition.direction = 'left'
                     app.root.current = 'settings'
+                    app.button_click_sound()
                 text: "Settings"
 
 <SettingsScreen>:
+    audio_slider: audio_slider
     BoxLayout:
+        orientation: 'vertical'
+        GridLayout:
+            padding: [2, 2, 2, 2]
+            spacing: [5, 5]
+            cols: 2
+            rows: 2
+            Button:
+                size_hint_x: 0.5
+                background_disabled_normal: "resources/imgs/label.png"
+                disabled: True
+                text: 'Audio Volume'
+            Slider:
+                id: audio_slider
+                cursor_image: 'resources/imgs/A1.png'
+                min: 0
+                max: 100
+                step: 1
+                orientation: 'horizontal'
+            Button:
+                size_hint_x: 0.5
+                background_disabled_normal: "resources/imgs/label.png"
+                disabled: True
+                text: 'Music Volume'
+            Slider:
+                id: music_slider
+                cursor_image: 'resources/imgs/A1.png'
+                min: 0
+                max: 100
+                step: 1
+                orientation: 'horizontal'
         Button:
+            color: 0,0,0,1
             text: "Back to Menu"
-            on_press: 
+            on_press:
+                app.button_click_sound()
                 app.root.transition.direction = 'right'
                 app.root.current = 'menu'
 
 <LeaderboardsScreen>:
     BoxLayout:
         Button:
+            color: 0,0,0,1
             text: "Back To Menu"
-            on_press: 
+            on_press:
+                app.button_click_sound()
                 app.root.transition.direction = 'right'
                 app.root.current = 'menu'

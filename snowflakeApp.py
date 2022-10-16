@@ -4,6 +4,7 @@ from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.properties import StringProperty
+from kivy.core.audio import SoundLoader
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -15,6 +16,10 @@ Window.minimum_width = 500
 Window.minimum_height = 600
 #Set a nice gray background so it doesn't burn the eyes
 Window.clearcolor = (0.3, 0.3, 0.3, 1)
+
+
+
+
 
 class SettingsScreen(Screen):
     pass
@@ -28,10 +33,17 @@ class OperationSnowflake(Screen):
     scoreText = StringProperty(f"Score: {score}")
     objectsOnScreen = []
 
+    def __init__(self, **kwargs):
+        super(OperationSnowflake, self).__init__(**kwargs)
+        self.init_resources()
+
+    def init_resources(self):
+        self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
+        self.sound_point.volume = 0.03
+
+    #Store touch pos in our relative layouts local coordinates and check if it collides with one of the game objects
     def on_touch_down(self, touch):
-        print(touch.pos)
         touchcoords = self.ids.playArea.to_local(touch.x, touch.y)
-        print(touchcoords)
         for item in self.objectsOnScreen:
             if item.collide_point(touchcoords[0], touchcoords[1]):
                 self.addPoint(item)
@@ -40,8 +52,10 @@ class OperationSnowflake(Screen):
     #Actually works, it gives points and removes clicked object from screen
     def addPoint(self, obj):
         self.ids.playArea.remove_widget(obj)
+        self.sound_point.play()
         self.score += 1
         self.scoreText = f"Score: {self.score}"
+        self.spawnInRandPos()
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawnInRandPos(self):
@@ -93,9 +107,12 @@ class OperationSnowflake(Screen):
         if self.ids.timer.value == 0:
             self.resetGameState()
             
-
-
 class SnowflakeApp(App):
+    sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
+    sound_button.volume = 0.04
+    def button_click_sound(self):
+        self.sound_button.play()
+
     def build(self):
         sm = ScreenManager()
         sm.add_widget(OperationSnowflake(name='menu'))
