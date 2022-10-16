@@ -37,6 +37,7 @@ class OperationSnowflake(Screen):
         super(OperationSnowflake, self).__init__(**kwargs)
         self.init_resources()
 
+    #Init soundfile
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
         self.sound_point.volume = 0.03
