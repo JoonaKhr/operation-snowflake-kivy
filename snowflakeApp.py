@@ -22,11 +22,32 @@ Window.clearcolor = (0.3, 0.3, 0.3, 1)
 
 
 class SettingsScreen(Screen):
-    pass
+    def __init__(self, **kw):
+        self.init_resources()
+        super().__init__(**kw)
+    
+    #Init soundfile
+    def init_resources(self):
+        self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
+        self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
+
+
+    def button_click_sound(self):
+        self.sound_button.play()
 
 
 class LeaderboardsScreen(Screen):
-    pass
+    def __init__(self, **kw):
+        self.init_resources()
+        super().__init__(**kw)
+        
+    #Init soundfile
+    def init_resources(self):
+        self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
+        self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
+
+    def button_click_sound(self):
+        self.sound_button.play()
 
 class OperationSnowflake(Screen):
     score = 0
@@ -40,7 +61,14 @@ class OperationSnowflake(Screen):
     #Init soundfile
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
-        self.sound_point.volume = 0.03
+        self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
+
+    def button_click_sound(self):
+        self.sound_button.play()
+
+    def on_touch_move(self, touch):
+        self.changeVolume()
+        return super().on_touch_move(touch)
 
     #Store touch pos in our relative layouts local coordinates and check if it collides with one of the game objects
     def on_touch_down(self, touch):
@@ -109,11 +137,6 @@ class OperationSnowflake(Screen):
             self.resetGameState()
             
 class SnowflakeApp(App):
-    sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
-    sound_button.volume = 0.04
-    def button_click_sound(self):
-        self.sound_button.play()
-
     def build(self):
         sm = ScreenManager()
         sm.add_widget(OperationSnowflake(name='menu'))
