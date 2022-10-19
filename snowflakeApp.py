@@ -40,7 +40,7 @@ class LeaderboardsScreen(Screen):
     def __init__(self, **kw):
         self.init_resources()
         super().__init__(**kw)
-        
+
     #Init soundfile
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
@@ -67,7 +67,7 @@ class OperationSnowflake(Screen):
         self.sound_button.play()
 
     def on_touch_move(self, touch):
-        self.changeVolume()
+        #self.changeVolume()
         return super().on_touch_move(touch)
 
     #Store touch pos in our relative layouts local coordinates and check if it collides with one of the game objects
