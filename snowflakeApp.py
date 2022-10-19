@@ -9,6 +9,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.config import Config
+from mongoConnect import Highscores
 
 #Set the inital window size and the minimum size for computer versions of the game
 Window.size = (500, 600)
@@ -56,6 +57,7 @@ class OperationSnowflake(Screen):
 
     def __init__(self, **kwargs):
         super(OperationSnowflake, self).__init__(**kwargs)
+        self.highscores = Highscores()
         self.init_resources()
 
     #Init soundfile
@@ -66,10 +68,13 @@ class OperationSnowflake(Screen):
     def button_click_sound(self):
         self.sound_button.play()
 
+<<<<<<< HEAD
     def on_touch_move(self, touch):
         #self.changeVolume()
         return super().on_touch_move(touch)
 
+=======
+>>>>>>> ed2e4bfca23d14104182e2fe777881d2df27c6e7
     #Store touch pos in our relative layouts local coordinates and check if it collides with one of the game objects
     def on_touch_down(self, touch):
         touchcoords = self.ids.playArea.to_local(touch.x, touch.y)
@@ -112,11 +117,13 @@ class OperationSnowflake(Screen):
         self.ids.ldrbrds_btn.disabled = False
         self.ids.settings_btn.disabled = False
         self.ids.timer.value = 0
+        self.score = 0
         self.ids.playArea.clear_widgets()
         self.objectsOnScreen.clear()
         self.timerEvent.cancel()
+        self.scoreText = f"Score: {self.score}"
 
-    # Start the game and the clock also disable the two extra buttons so no accidents happen
+    # Start the game and the clock, also disable the two extra buttons so no accidents happen
     def startGameToggle(self, widget):
         if widget.state == "normal":
             widget.text = "Start"
@@ -124,7 +131,6 @@ class OperationSnowflake(Screen):
         else:
             widget.text = "Stop"
             self.ids.timer.value = 100
-            self.score = 0
             self.ids.ldrbrds_btn.disabled = True
             self.ids.settings_btn.disabled = True
             self.startClock()
@@ -134,6 +140,7 @@ class OperationSnowflake(Screen):
         self.ids.timer.value -= 1
         self.spawnInRandPos()
         if self.ids.timer.value == 0:
+            self.highscores.insertHighscore("joona", self.score)
             self.resetGameState()
             
 class SnowflakeApp(App):
