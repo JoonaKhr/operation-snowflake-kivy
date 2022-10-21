@@ -103,27 +103,41 @@
                 app.root.current = 'menu'
 
 <LeaderboardsScreen>:
+    name_input: name_input
     BoxLayout:
         orientation: "vertical"
         BoxLayout:
             TextInput:
+                id: name_input
                 color: 0,0,0,1
                 halign: "center"
             Button:
-                text: "Confirm"
+                text: "Search"
+                on_press: 
+                    root.button_click_sound()
+                    root.name_sorted_leaderboards()
+                color: 0,0,0,1
+                size_hint: 0.25, 1
+            Button:
+                text: "Reset"
+                on_press: 
+                    root.button_click_sound()
+                    root.default_sorted_leaderboards()
                 color: 0,0,0,1
                 size_hint: 0.25, 1
         Label:
-            text: "First"
+            text: root.first_place
         Label:
-            text: "Second"
+            text: root.second_place
         Label:
-            text: "Three"
+            text: root.third_place
         Label:
-            text: "Fourth"
+            text: root.fourth_place
         Label:
-            text: "Fifth"
+            text: root.fifth_place
+        
         Button:
+            size_hint: 1, 1.1
             color: 0,0,0,1
             text: "Back To Menu"
             on_press:

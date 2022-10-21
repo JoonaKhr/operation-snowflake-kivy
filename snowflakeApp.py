@@ -38,9 +38,38 @@ class SettingsScreen(Screen):
 
 
 class LeaderboardsScreen(Screen):
+    first_place = StringProperty("")
+    second_place = StringProperty("")
+    third_place = StringProperty("")
+    fourth_place = StringProperty("")
+    fifth_place = StringProperty("")
     def __init__(self, **kw):
+        self.highscores = Highscores()
+        
         self.init_resources()
+        self.default_sorted_leaderboards()
         super().__init__(**kw)
+
+    def default_sorted_leaderboards(self):
+        tempList = list(self.highscores.getFiveHighestScores().items())
+        self.first_place = f"{tempList[0][0].capitalize()}: {tempList[0][1]}"
+        self.second_place = f"{tempList[1][0].capitalize()}: {tempList[1][1]}"
+        self.third_place = f"{tempList[2][0].capitalize()}: {tempList[2][1]}"
+        self.fourth_place = f"{tempList[3][0].capitalize()}: {tempList[3][1]}"
+        self.fifth_place = f"{tempList[4][0].capitalize()}: {tempList[4][1]}"
+
+    def name_sorted_leaderboards(self):
+        name = self.ids.name_input.text
+        if self.highscores.col.find_one({"name": name}):
+            tempList = list(self.highscores.getUserHighestScores(name).items())
+            for key, value in tempList:
+                if len(value) >= 5:
+                    self.first_place = f"{name.capitalize()}: {value[0]}"
+                    self.second_place = f"{name.capitalize()}: {value[1]}"
+                    self.third_place = f"{name.capitalize()}: {value[2]}"
+                    self.fourth_place = f"{name.capitalize()}: {value[3]}"
+                    self.fifth_place = f"{name.capitalize()}: {value[4]}"
+            
 
     #Init soundfile
     def init_resources(self):
@@ -59,6 +88,7 @@ class OperationSnowflake(Screen):
         super(OperationSnowflake, self).__init__(**kwargs)
         self.highscores = Highscores()
         self.init_resources()
+        self.highscores.getFiveHighestScores()
 
     #Init soundfile
     def init_resources(self):
@@ -68,13 +98,6 @@ class OperationSnowflake(Screen):
     def button_click_sound(self):
         self.sound_button.play()
 
-<<<<<<< HEAD
-    def on_touch_move(self, touch):
-        #self.changeVolume()
-        return super().on_touch_move(touch)
-
-=======
->>>>>>> ed2e4bfca23d14104182e2fe777881d2df27c6e7
     #Store touch pos in our relative layouts local coordinates and check if it collides with one of the game objects
     def on_touch_down(self, touch):
         touchcoords = self.ids.playArea.to_local(touch.x, touch.y)
