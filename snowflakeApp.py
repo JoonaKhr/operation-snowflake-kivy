@@ -25,6 +25,8 @@ Window.clearcolor = (0.3, 0.3, 0.3, 1)
 class SettingsScreen(Screen):
     def __init__(self, **kw):
         self.init_resources()
+        self.highscores = Highscores()
+        self.name = ""
         super().__init__(**kw)
     
     #Init soundfile
@@ -32,6 +34,14 @@ class SettingsScreen(Screen):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
         self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
 
+    def validate_name(self, value):
+        self.name = value
+        if self.name in self.highscores.get_names():
+            self.ids.name_in_use.text = "Name already in use,\n you might interfere \n with someone elses leaderboards"
+        print(self.name)
+
+    def get_name(self):
+        return self.name
 
     def button_click_sound(self):
         self.sound_button.play()
@@ -64,6 +74,7 @@ class LeaderboardsScreen(Screen):
             tempList = list(self.highscores.getUserHighestScores(name).items())
             for key, value in tempList:
                 if len(value) >= 5:
+                    #listaan ja vertaa indeksejä tai jotain ?
                     self.first_place = f"{name.capitalize()}: {value[0]}"
                     self.second_place = f"{name.capitalize()}: {value[1]}"
                     self.third_place = f"{name.capitalize()}: {value[2]}"
@@ -89,6 +100,7 @@ class OperationSnowflake(Screen):
         self.highscores = Highscores()
         self.init_resources()
         self.highscores.getFiveHighestScores()
+        #print(self.)
 
     #Init soundfile
     def init_resources(self):
@@ -116,7 +128,7 @@ class OperationSnowflake(Screen):
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawnInRandPos(self):
-        playObject = Image(source="resources/imgs/a3.png", color=(1,1,1,1))
+        playObject = Image(source="resources/imgs/A1.png", color=(1,1,1,1))
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}

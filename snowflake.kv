@@ -15,10 +15,10 @@
     settings_btn: settings_btn
 
     BoxLayout:
-        orientation:'vertical'    
+        orientation:'vertical'
         RelativeLayout:
             id: playArea
-            
+
         ProgressBar:
             id: timer
             max:10
@@ -38,7 +38,7 @@
             Button:
                 id: ldrbrds_btn
                 color: 0,0,0,1
-                on_press: 
+                on_press:
                     app.root.current = 'leaderboards'
                     app.root.transition.direction = 'left'
                     root.button_click_sound()
@@ -46,55 +46,76 @@
             ToggleButton:
                 color: 0,0,0,1
                 id: startToggle
-                on_press: 
+                on_press:
                     root.button_click_sound()
                     root.startGameToggle(self)
                 text: "Start"
-                
+
             Button:
                 color: 0,0,0,1
                 id: settings_btn
-                on_press: 
+                on_press:
                     app.root.transition.direction = 'left'
                     app.root.current = 'settings'
                     root.button_click_sound()
                 text: "Settings"
 
 <SettingsScreen>:
-    audio_slider: audio_slider
+    name: 'settings'
+    #audio_slider: audio_slider
+    s_name_input: s_name_input
+    name_in_use: name_in_use
     BoxLayout:
         orientation: 'vertical'
         GridLayout:
             padding: [2, 2, 2, 2]
             spacing: [5, 5]
             cols: 2
-            rows: 2
-            Button:
-                size_hint_x: 0.5
-                background_disabled_normal: "resources/imgs/label.png"
-                disabled: True
-                text: 'Audio Volume'
-            Slider:
-                id: audio_slider
-                cursor_image: 'resources/imgs/A1.png'
-                min: 0
-                max: 100
-                step: 1
-                value: 25
-                orientation: 'horizontal'
-            Button:
-                size_hint_x: 0.5
-                background_disabled_normal: "resources/imgs/label.png"
-                disabled: True
-                text: 'Music Volume'
-            Slider:
-                id: music_slider
-                cursor_image: 'resources/imgs/A1.png'
-                min: 0
-                max: 100
-                step: 1
-                orientation: 'horizontal'
+            rows: 1
+            size_hint: 1, 0.2
+            # Button:
+            #     size_hint_x: 0.5
+            #     background_disabled_normal: "resources/imgs/label.png"
+            #     disabled: True
+            #     text: 'Audio Volume'
+            # Slider:
+            #     id: audio_slider
+            #     cursor_image: 'resources/imgs/A1.png'
+            #     min: 0
+            #     max: 100
+            #     step: 1
+            #     value: 25
+            #     orientation: 'horizontal'
+            # Button:
+            #     size_hint_x: 0.5
+            #     background_disabled_normal: "resources/imgs/label.png"
+            #     disabled: True
+            #     text: 'Music Volume'
+            # Slider:
+            #     id: music_slider
+            #     cursor_image: 'resources/imgs/A1.png'
+            #     min: 0
+            #     max: 100
+            #     step: 1
+            #     orientation: 'horizontal'
+            Label:
+                size_hint: 1, 0.2
+                text: "Username: "
+            TextInput:
+                size_hint: 1, 0.2
+                id: s_name_input
+                multiline: False
+                on_text_validate: root.validate_name(self.text)
+                color: 0,0,0,1
+                halign: "center"
+        BoxLayout:
+            Label:
+                id: name_in_use
+                text: ""
+                halign: "center"
+
         Button:
+            size_hint: 1, 0.2
             color: 0,0,0,1
             text: "Back to Menu"
             on_press:
@@ -109,18 +130,19 @@
         BoxLayout:
             TextInput:
                 id: name_input
+                multiline: False
                 color: 0,0,0,1
                 halign: "center"
             Button:
                 text: "Search"
-                on_press: 
+                on_press:
                     root.button_click_sound()
                     root.name_sorted_leaderboards()
                 color: 0,0,0,1
                 size_hint: 0.25, 1
             Button:
                 text: "Reset"
-                on_press: 
+                on_press:
                     root.button_click_sound()
                     root.default_sorted_leaderboards()
                 color: 0,0,0,1
@@ -135,7 +157,7 @@
             text: root.fourth_place
         Label:
             text: root.fifth_place
-        
+
         Button:
             size_hint: 1, 1.1
             color: 0,0,0,1

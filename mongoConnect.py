@@ -9,6 +9,12 @@ class Highscores():
         self.highs = highscores.Highscores
         self.col = highscores["Highscores"]
 
+    def get_names(self):
+        name_list = []
+        for doc in self.col.find():
+            name_list.append(doc["name"])
+        return name_list
+
     def insertHighscore(self, name, score):
         if not self.col.find_one({"name": name}):
             self.col.insert_one({"name": name.lower(), "scores": [score]})
