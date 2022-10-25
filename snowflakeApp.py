@@ -52,11 +52,11 @@ class LeaderboardsScreen(Screen):
     fifth_place = StringProperty("")
     def __init__(self, **kw):
         self.highscores = Highscores()
-        
         self.init_resources()
         self.default_sorted_leaderboards()
         super().__init__(**kw)
 
+    #Sorts the leaderboard for only the highest five scores in the whole database
     def default_sorted_leaderboards(self):
         tempList = list(self.highscores.getFiveHighestScores().items())
         self.first_place = f"{tempList[0][0].capitalize()}: {tempList[0][1]}"
@@ -65,6 +65,7 @@ class LeaderboardsScreen(Screen):
         self.fourth_place = f"{tempList[3][0].capitalize()}: {tempList[3][1]}"
         self.fifth_place = f"{tempList[4][0].capitalize()}: {tempList[4][1]}"
 
+    #Sorts the leaderboard for the selected username's five highest scores in the database
     def name_sorted_leaderboards(self):
         name = self.ids.name_input.text
         if self.highscores.col.find_one({"name": name}):
@@ -83,7 +84,7 @@ class LeaderboardsScreen(Screen):
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
         self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
-
+    #Button sound effect for clicking on button
     def button_click_sound(self):
         self.sound_button.play()
 
