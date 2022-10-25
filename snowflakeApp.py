@@ -3,13 +3,14 @@ from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ObjectProperty
 from kivy.core.audio import SoundLoader
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.config import Config
 from mongoConnect import Highscores
+
 
 #Set the inital window size and the minimum size for computer versions of the game
 Window.size = (500, 600)
@@ -124,7 +125,7 @@ class OperationSnowflake(Screen):
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawn_in_rand_pos(self):
-        playObject = Image(source="resources/imgs/A1.png", color=(1,1,1,1))
+        playObject = Image(source="resources/imgs/imgs.zip", color=(1,1,1,1), anim_delay=0.1)
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}
@@ -166,7 +167,7 @@ class OperationSnowflake(Screen):
             self.ids.settings_btn.disabled = True
             self.start_clock()
 
-    #Tick tock the time goes also spawns one flake on every tick
+    #Tick tock the time goes and calls a function to spawn a game object on every tick
     def timer_tick(self, dt):
         self.ids.timer.value -= 1
         self.spawn_in_rand_pos()
