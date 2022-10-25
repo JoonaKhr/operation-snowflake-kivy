@@ -4,12 +4,12 @@ Projektin tavoite olisi saada luotua peli, jossa painellaan ruudulle ilmestyviä
 Pelin olisi tarkoitus toimia niin tietokoneella kuin mobiilillakin kivyn ansiosta ja tulokset pitäisi lähteä nettiin mongoDB:hen ja tulla myös sieltä pelissä olevaan
 pistetaulukkoon.
 
-Asiakasvaatimuksina olisi, että peliä pelatessa saa pisteitä,  jotka tallennetaan tietokantaan ja ne voi nähdä pelin sisällä herättäen kilpaisullisuutta
-Pelaaja tahtoo nähdä itsensä parempana kuin kaverinsa joten vertaa omia pisteitään kavereiden pisteisiin
+Asiakasvaatimuksina olisi, että peliä pelatessa saa pisteitä,  jotka tallennetaan tietokantaan ja ne voi nähdä pelin sisällä herättäen kilpaisullisuutta.
+Pelaaja tahtoo nähdä itsensä parempana kuin kaverinsa, joten vertaisi omia pisteitään kavereiden pisteisiin
 
 Pythonilla rakennettava logiikka ja kivyllä rakennettava käyttöliittymä, mongoDB tietokantana
 
-Testaan sitä manuaalisesti toimintoja tehdessä, en tiedä voiko sitä miten hyvin automatisoida. MongoDB yhteyttä kai voinee testata automaattisesti
+Testaan sitä manuaalisesti toimintoja tehdessä. MongoDB yhteyttä kai voinee testata automaattisesti. Olen testannut toimintoja niitä eteenpäin tehdessäni osio kerrallaan. MongoDB yhteyden testasin printtaamalla vaan konsoliin yhteyden tiedot ja vertaan sitä siihen mitä tietokannassa näkyy. Pelin ominaisuuksia olen testannut pelaamalla peliä lyhyemmällä peliajalla uudelleen ja uudelleen aina uutta toimintoa kehittäessäni.
 
 Ensimmäiset pari viikkoa menee kivyn UI rakentamisen opettelemiseen, jonka jälkeen alan työstämään logiikkaa tämän ympärille.
 
