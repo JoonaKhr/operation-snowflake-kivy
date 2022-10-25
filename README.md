@@ -15,6 +15,10 @@ Ensimmäiset pari viikkoa menee kivyn UI rakentamisen opettelemiseen, jonka jäl
 
 Työskentelen suurimmaksi osaksi kahden kaverini kanssa puhelussa discordin kautta jakaen ruutuani, jotta he voivat katsoa, kommentoida ja ehdottaa mitä teen tai tekisin seuraavaksi, heillä ei ole varsinaista osaamista kivystä tai pythonista.
 
+Olen perheeltä ja kavereilta vastaanottanut ehdotuksia pelin parantamiseksi ja joko toteuttanut ne kuten nimellä haettavat tulokset tulostaulukkoon tai en ole toteuttanut niitä ainakaan vielä, koska on ollut tärkeämpiä huolenaiheita esimerkkinä vaihdettavat peliobjektikuvakkeet.
+
+Tietosuojan suhteen olen sen verran katsonut ettei pelin käyttämällä mongodb yhteydellä voi vaikuttaa muihin kuin vain peliin liittyvän tietokannan kollektion asioihin
+
 ## Päiväkirja
 20.9.-27.9. Pelin ulkoasun tekemisen aloittaminen, painikkeita ja pisteteksti. Start Game painike, joka aloittaa ajastimen ja ajastimen loputtua ajastin sulkee itsensä.
 Tein myös Screen Managerin, jossa on pelinäkymä, asetukset ja pistetilastot, mutta en ehtinyt saada niihin siirtymistä toimimaan tämän viikon aikana. Seuraavan viikon tavoite on saada Screen Manager toimimaan ja siistiä vähän ongelmia, huomasin Start Game painiketta painaessa useamman kerran sen käynnistävän ajastimia, jotka tekevät pelistä huomattavasti vaikeamman.
