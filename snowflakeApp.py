@@ -18,31 +18,27 @@ Window.minimum_height = 600
 #Set a nice gray background so it doesn't burn the eyes
 Window.clearcolor = (0.3, 0.3, 0.3, 1)
 
-
-
-
-
 class SettingsScreen(Screen):
     def __init__(self, **kw):
         self.init_resources()
         self.highscores = Highscores()
-        self.name = ""
+        self.username = ""
         super().__init__(**kw)
     
     #Init soundfile
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
         self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
-
+    #Checks the database if there is already the given name and displays a warning if it is in
     def validate_name(self, value):
-        self.name = value
-        if self.name in self.highscores.get_names():
+        self.username = value
+        if self.username in self.highscores.get_names():
             self.ids.name_in_use.text = "Name already in use,\n you might interfere \n with someone elses leaderboards"
-        print(self.name)
-
-    def get_name(self):
-        return self.name
-
+        print(self.username)
+    #Gets the username
+    def get_username(self):
+        return self.username
+    #Button sound when you click button
     def button_click_sound(self):
         self.sound_button.play()
 
@@ -94,19 +90,19 @@ class OperationSnowflake(Screen):
     score = 0
     scoreText = StringProperty(f"Score: {score}")
     objectsOnScreen = []
-
+    
     def __init__(self, **kwargs):
         super(OperationSnowflake, self).__init__(**kwargs)
         self.highscores = Highscores()
         self.init_resources()
         self.highscores.getFiveHighestScores()
-        #print(self.)
-
+        
     #Init soundfile
     def init_resources(self):
         self.sound_point = SoundLoader.load("resources/Player/footstep.wav")
         self.sound_button = SoundLoader.load("resources/UI/cancel-1.wav")
-
+    
+    #Play soundfile when you click a menu button
     def button_click_sound(self):
         self.sound_button.play()
 
@@ -115,19 +111,19 @@ class OperationSnowflake(Screen):
         touchcoords = self.ids.playArea.to_local(touch.x, touch.y)
         for item in self.objectsOnScreen:
             if item.collide_point(touchcoords[0], touchcoords[1]):
-                self.addPoint(item)
+                self.add_point(item)
         return super().on_touch_down(touch)
 
     #Actually works, it gives points and removes clicked object from screen
-    def addPoint(self, obj):
+    def add_point(self, obj):
         self.ids.playArea.remove_widget(obj)
         self.sound_point.play()
         self.score += 1
         self.scoreText = f"Score: {self.score}"
-        self.spawnInRandPos()
+        self.spawn_in_rand_pos()
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
-    def spawnInRandPos(self):
+    def spawn_in_rand_pos(self):
         playObject = Image(source="resources/imgs/A1.png", color=(1,1,1,1))
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
@@ -141,12 +137,12 @@ class OperationSnowflake(Screen):
         else:
             self.objectsOnScreen.append(playObject)
     
-    #Init the timer event to use for the StartGameToggle 
-    def startClock(self):
-        self.timerEvent = Clock.schedule_interval(self.timerTick, 1)
+    #Init the timer event to use for the start_game_toggle 
+    def start_clock(self):
+        self.timerEvent = Clock.schedule_interval(self.timer_tick, 1)
 
     #Reset the game state on the original values
-    def resetGameState(self):
+    def reset_game_state(self):
         self.ids.startToggle.state = "normal"
         self.ids.startToggle.text = "Start"
         self.ids.ldrbrds_btn.disabled = False
@@ -159,28 +155,33 @@ class OperationSnowflake(Screen):
         self.scoreText = f"Score: {self.score}"
 
     # Start the game and the clock, also disable the two extra buttons so no accidents happen
-    def startGameToggle(self, widget):
+    def start_game_toggle(self, widget):
         if widget.state == "normal":
             widget.text = "Start"
-            self.resetGameState()
+            self.reset_game_state()
         else:
             widget.text = "Stop"
             self.ids.timer.value = 100
             self.ids.ldrbrds_btn.disabled = True
             self.ids.settings_btn.disabled = True
-            self.startClock()
+            self.start_clock()
 
     #Tick tock the time goes also spawns one flake on every tick
-    def timerTick(self, dt):
+    def timer_tick(self, dt):
         self.ids.timer.value -= 1
-        self.spawnInRandPos()
+        self.spawn_in_rand_pos()
         if self.ids.timer.value == 0:
-            self.highscores.insertHighscore("joona", self.score)
-            self.resetGameState()
-            
+            if App.get_running_app().root.get_screen('settings').get_username():
+                self.highscores.insertHighscore(App.get_running_app().root.get_screen('settings').get_username(), self.score)
+            self.reset_game_state()
+
+
+class WindowManager(ScreenManager):
+    pass
+
 class SnowflakeApp(App):
     def build(self):
-        sm = ScreenManager()
+        sm = WindowManager()
         sm.add_widget(OperationSnowflake(name='menu'))
         sm.add_widget(SettingsScreen(name='settings'))
         sm.add_widget(LeaderboardsScreen(name='leaderboards'))
@@ -188,7 +189,3 @@ class SnowflakeApp(App):
 
 if __name__ == "__main__":
     SnowflakeApp().run()
-
-# kivy course- create python games and mobile apps
-# youtube
-# You can use kivy's Animation class which is described very nicely by @inclement on youtube.

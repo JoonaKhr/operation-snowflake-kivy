@@ -1,5 +1,20 @@
 #:kivy 2.1.0
 
+WindowManager:
+    id: screen_manager
+    OperationSnowflake:
+        id: menu_screen
+        name: 'menu'
+        manager: screen_manager
+    SettingsScreen:
+        id: settings_screen
+        name: 'settings'
+        manager: screen_manager
+    LeaderboardsScreen:
+        id: leaderboards_screen
+        name: 'leaderboards'
+        manager: screen_manager
+
 <Widget>:
     font_name: "resources\SinsGold.ttf"
     font_size: "36sp"
@@ -48,7 +63,7 @@
                 id: startToggle
                 on_press:
                     root.button_click_sound()
-                    root.startGameToggle(self)
+                    root.start_game_toggle(self)
                 text: "Start"
 
             Button:
