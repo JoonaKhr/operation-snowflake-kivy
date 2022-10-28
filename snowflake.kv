@@ -31,6 +31,11 @@ WindowManager:
 
     BoxLayout:
         orientation:'vertical'
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "resources/imgs/woods.png"
         RelativeLayout:
             id: playArea
 
@@ -81,6 +86,11 @@ WindowManager:
     s_name_input: s_name_input
     name_in_use: name_in_use
     BoxLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "resources/imgs/woods2.png"
         orientation: 'vertical'
         GridLayout:
             padding: [2, 2, 2, 2]
@@ -141,6 +151,11 @@ WindowManager:
 <LeaderboardsScreen>:
     name_input: name_input
     BoxLayout:
+        canvas.before:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: "resources/imgs/woods2.png"
         orientation: "vertical"
         BoxLayout:
             TextInput:

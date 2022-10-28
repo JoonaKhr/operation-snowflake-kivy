@@ -133,12 +133,13 @@ class OperationSnowflake(Screen):
         self.score += 1
         self.scoreText = f"Score: {self.score}"
         self.spawn_in_rand_pos()
-    
+
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawn_in_rand_pos(self):
         playObject = Image(source="resources/imgs/SalmonSnake.zip", color=(1,1,1,1), anim_delay=.1)
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
+        
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}
 
         self.ids.playArea.add_widget(playObject, 0, self.ids.playArea.canvas.after)
