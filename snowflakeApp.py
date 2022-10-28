@@ -1,4 +1,6 @@
 from random import uniform
+from kivy.config import Config
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -67,18 +69,25 @@ class LeaderboardsScreen(Screen):
 
     #Sorts the leaderboard for the selected username's five highest scores in the database
     def name_sorted_leaderboards(self):
-        name = self.ids.name_input.text
+        #Set to blank so there's empty spaces in the case of too few scores on the database
+        self.first_place = ""
+        self.second_place = ""
+        self.third_place = ""
+        self.fourth_place = ""
+        self.fifth_place = ""
+        #Put the label object ids to a list so their indexes can be compared
+        places_list = [self.first_place, self.second_place, self.third_place, self.fourth_place, self.fifth_place]
+        name = self.ids.name_input.text.lower()
         if self.highscores.col.find_one({"name": name}):
-            tempList = list(self.highscores.getUserHighestScores(name).items())
-            for key, value in tempList:
-                if len(value) >= 5:
-                    #listaan ja vertaa indeksejä tai jotain ?
-                    self.first_place = f"{name.capitalize()}: {value[0]}"
-                    self.second_place = f"{name.capitalize()}: {value[1]}"
-                    self.third_place = f"{name.capitalize()}: {value[2]}"
-                    self.fourth_place = f"{name.capitalize()}: {value[3]}"
-                    self.fifth_place = f"{name.capitalize()}: {value[4]}"
-            
+            for index, value in enumerate(self.highscores.getUserHighestScores(name)):
+                if index < 5:
+                    places_list[index] = f"{name.capitalize()}: {value}"
+        #Set the labels to the correct values
+        self.first_place = places_list[0]
+        self.second_place = places_list[1]
+        self.third_place = places_list[2]
+        self.fourth_place = places_list[3]
+        self.fifth_place = places_list[4]
 
     #Init soundfile
     def init_resources(self):
@@ -116,9 +125,10 @@ class OperationSnowflake(Screen):
                 self.add_point(item)
         return super().on_touch_down(touch)
 
-    #Actually works, it gives points and removes clicked object from screen
+    #It gives points and removes clicked object from screen
     def add_point(self, obj):
         self.ids.playArea.remove_widget(obj)
+        self.objectsOnScreen.remove(obj)
         self.sound_point.play()
         self.score += 1
         self.scoreText = f"Score: {self.score}"
@@ -126,7 +136,7 @@ class OperationSnowflake(Screen):
     
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawn_in_rand_pos(self):
-        playObject = Image(source="resources/imgs/SalmonSnake.zip", color=(1,1,1,1), anim_delay=0.1)
+        playObject = Image(source="resources/imgs/SalmonSnake.zip", color=(1,1,1,1), anim_delay=.1)
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}

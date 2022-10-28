@@ -34,13 +34,11 @@ class Highscores():
         return sortedDict
 
     def getUserHighestScores(self, name):
-        highestDict = defaultdict(list)
-        sortedDict = {}
+        scores = []
         for item in self.col.find_one({"name": name})["scores"]:
-            highestDict[name].append(item)
-        tList = sorted(highestDict[name], reverse=True)
-        sortedDict.update({name: tList})
-        return sortedDict
+            scores.append(item)
+        return sorted(scores, reverse=True)
 
 high = Highscores()
-high.getUserHighestScores('joona')
+
+print(high.getUserHighestScores('joona'))
