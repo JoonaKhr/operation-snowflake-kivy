@@ -69,6 +69,7 @@ class LeaderboardsScreen(Screen):
 
     #Sorts the leaderboard for the selected username's five highest scores in the database
     def name_sorted_leaderboards(self):
+        #Create needed labels with for in range(5)?
         #Set to blank so there's empty spaces in the case of too few scores on the database
         self.first_place = ""
         self.second_place = ""
