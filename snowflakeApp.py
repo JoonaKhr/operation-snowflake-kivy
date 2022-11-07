@@ -10,6 +10,7 @@ from kivy.core.audio import SoundLoader
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.label import Label
 from kivy.config import Config
 from mongoConnect import Highscores
 
@@ -47,48 +48,40 @@ class SettingsScreen(Screen):
 
 
 class LeaderboardsScreen(Screen):
-    first_place = StringProperty("")
-    second_place = StringProperty("")
-    third_place = StringProperty("")
-    fourth_place = StringProperty("")
-    fifth_place = StringProperty("")
     def __init__(self, **kw):
         self.highscores = Highscores()
         self.init_resources()
-        self.default_sorted_leaderboards()
         super().__init__(**kw)
 
     #Sorts the leaderboard for only the highest five scores in the whole database
     def default_sorted_leaderboards(self):
         tempList = list(self.highscores.getFiveHighestScores().items())
-        self.first_place = f"{tempList[0][0].capitalize()}: {tempList[0][1]}"
-        self.second_place = f"{tempList[1][0].capitalize()}: {tempList[1][1]}"
-        self.third_place = f"{tempList[2][0].capitalize()}: {tempList[2][1]}"
-        self.fourth_place = f"{tempList[3][0].capitalize()}: {tempList[3][1]}"
-        self.fifth_place = f"{tempList[4][0].capitalize()}: {tempList[4][1]}"
+        rows = [i for i in self.ids.leaderboardsPos.children]
+        for row in rows:
+            if type(row) == Label:
+                self.ids.leaderboardsPos.remove_widget(row)
+        for n in range(0, 5):
+            l = Label(text=f"{tempList[n][0].capitalize()}: {tempList[n][1]}")
+            self.ids.leaderboardsPos.add_widget(l, index=1)
 
     #Sorts the leaderboard for the selected username's five highest scores in the database
     def name_sorted_leaderboards(self):
-        #Create needed labels with for in range(5)?
         #Set to blank so there's empty spaces in the case of too few scores on the database
-        self.first_place = ""
-        self.second_place = ""
-        self.third_place = ""
-        self.fourth_place = ""
-        self.fifth_place = ""
-        #Put the label object ids to a list so their indexes can be compared
-        places_list = [self.first_place, self.second_place, self.third_place, self.fourth_place, self.fifth_place]
+        rows = [i for i in self.ids.leaderboardsPos.children]
+        for row in rows:
+            if type(row) == Label:
+                self.ids.leaderboardsPos.remove_widget(row)
+
         name = self.ids.name_input.text.lower()
         if self.highscores.col.find_one({"name": name}):
             for index, value in enumerate(self.highscores.getUserHighestScores(name)):
                 if index < 5:
-                    places_list[index] = f"{name.capitalize()}: {value}"
-        #Set the labels to the correct values
-        self.first_place = places_list[0]
-        self.second_place = places_list[1]
-        self.third_place = places_list[2]
-        self.fourth_place = places_list[3]
-        self.fifth_place = places_list[4]
+                    l = Label(text=f"{name.capitalize()}: {value}")
+                    self.ids.leaderboardsPos.add_widget(l, index=1)
+            i = 0
+            while i < (5 - len(self.highscores.getUserHighestScores(name))):
+                self.ids.leaderboardsPos.add_widget(Label(text=""), index=1)
+                i+=1
 
     #Init soundfile
     def init_resources(self):

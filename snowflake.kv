@@ -61,6 +61,7 @@ WindowManager:
                 on_press:
                     app.root.current = 'leaderboards'
                     app.root.transition.direction = 'left'
+                    app.root.get_screen('leaderboards').default_sorted_leaderboards()
                     root.button_click_sound()
                 text: "Leaderboards"
             ToggleButton:
@@ -150,7 +151,9 @@ WindowManager:
 
 <LeaderboardsScreen>:
     name_input: name_input
+    leaderboardsPos: leaderboardsPos
     BoxLayout:
+        id: leaderboardsPos
         canvas.before:
             Rectangle:
                 pos: self.pos
@@ -178,17 +181,7 @@ WindowManager:
                     root.default_sorted_leaderboards()
                 color: 0,0,0,1
                 size_hint: 0.25, 1
-        Label:
-            text: root.first_place
-        Label:
-            text: root.second_place
-        Label:
-            text: root.third_place
-        Label:
-            text: root.fourth_place
-        Label:
-            text: root.fifth_place
-
+        
         Button:
             size_hint: 1, 1.1
             color: 0,0,0,1
