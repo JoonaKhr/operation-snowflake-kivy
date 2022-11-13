@@ -1,6 +1,12 @@
+from distutils.command.config import config
 from random import uniform
+import zipfile
+from itertools import cycle
+import io
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+Config.set('graphics', 'multisamples', '0')
+Config.write()
 from kivy.app import App
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -8,6 +14,7 @@ from kivy.uix.widget import Widget
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.core.audio import SoundLoader
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.image import Image as CoreImage
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
@@ -133,7 +140,6 @@ class OperationSnowflake(Screen):
         playObject = Image(source="resources/imgs/SalmonSnake.zip", color=(1,1,1,1), anim_delay=.1)
         playObject.size = playObject.texture_size
         playObject.size_hint = (None, None)
-        
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}
 
         self.ids.playArea.add_widget(playObject, 0, self.ids.playArea.canvas.after)
