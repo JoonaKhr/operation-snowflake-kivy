@@ -1,8 +1,4 @@
-from distutils.command.config import config
 from random import uniform
-import zipfile
-from itertools import cycle
-import io
 from kivy.config import Config
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.set('graphics', 'multisamples', '0')
@@ -14,7 +10,6 @@ from kivy.uix.widget import Widget
 from kivy.properties import StringProperty, ObjectProperty
 from kivy.core.audio import SoundLoader
 from kivy.uix.boxlayout import BoxLayout
-from kivy.core.image import Image as CoreImage
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.label import Label
@@ -22,7 +17,7 @@ from kivy.config import Config
 from mongoConnect import Highscores
 
 
-#Set the inital window size and the minimum size for computer versions of the game
+#Set the initial window size and the minimum size for computer versions of the game
 Window.size = (500, 600)
 Window.minimum_width = 500
 Window.minimum_height = 600
@@ -64,6 +59,7 @@ class LeaderboardsScreen(Screen):
     def default_sorted_leaderboards(self):
         tempList = list(self.highscores.getFiveHighestScores().items())
         rows = [i for i in self.ids.leaderboardsPos.children]
+        #Removes the labels and creates a new set
         for row in rows:
             if type(row) == Label:
                 self.ids.leaderboardsPos.remove_widget(row)
@@ -73,18 +69,20 @@ class LeaderboardsScreen(Screen):
 
     #Sorts the leaderboard for the selected username's five highest scores in the database
     def name_sorted_leaderboards(self):
-        #Set to blank so there's empty spaces in the case of too few scores on the database
+        #Removes the labels so names with less than five scores only show as many as they have
         rows = [i for i in self.ids.leaderboardsPos.children]
         for row in rows:
             if type(row) == Label:
                 self.ids.leaderboardsPos.remove_widget(row)
-
+        #Set the name to lowercase as that's how they're stored in the data
         name = self.ids.name_input.text.lower()
+        #If name found in database get the five highest scores
         if self.highscores.col.find_one({"name": name}):
             for index, value in enumerate(self.highscores.getUserHighestScores(name)):
                 if index < 5:
                     l = Label(text=f"{name.capitalize()}: {value}")
                     self.ids.leaderboardsPos.add_widget(l, index=1)
+            #Creates empty labels to correct the automatic sizing when selected name has less than five scores
             i = 0
             while i < (5 - len(self.highscores.getUserHighestScores(name))):
                 self.ids.leaderboardsPos.add_widget(Label(text=""), index=1)
@@ -126,7 +124,7 @@ class OperationSnowflake(Screen):
                 self.add_point(item)
         return super().on_touch_down(touch)
 
-    #It gives points and removes clicked object from screen
+    #It gives points, removes clicked object from screen and spawns a new one
     def add_point(self, obj):
         self.ids.playArea.remove_widget(obj)
         self.objectsOnScreen.remove(obj)
@@ -137,12 +135,16 @@ class OperationSnowflake(Screen):
 
     #Spawn a game object in a random position and check if the game object list equals five in that case delete the earliest one
     def spawn_in_rand_pos(self):
+        #Source zip for kivy to load the images as animation
         playObject = Image(source="resources/imgs/SalmonSnake.zip", color=(1,1,1,1), anim_delay=.1)
         playObject.size = playObject.texture_size
+        #Remove size hint so the images aren't the size of the layout they're put on
         playObject.size_hint = (None, None)
+        #Randomise position on layout
         playObject.pos_hint={"center_x":uniform(.05, .90),"center_y":uniform(.05, .90)}
-
+        #Add image widget on the layout
         self.ids.playArea.add_widget(playObject, 0, self.ids.playArea.canvas.after)
+        #Put the objects in a list it's easier to manage them
         if len(self.objectsOnScreen) == 5:
             self.ids.playArea.remove_widget(self.objectsOnScreen[0])
             self.objectsOnScreen.pop(0)
@@ -194,6 +196,7 @@ class WindowManager(ScreenManager):
 
 class SnowflakeApp(App):
     def build(self):
+        #Create screen manager for the different screens in the program
         sm = WindowManager()
         sm.add_widget(OperationSnowflake(name='menu'))
         sm.add_widget(SettingsScreen(name='settings'))
